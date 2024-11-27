@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Booking - Jobra Movies</title>
+    <link rel="stylesheet" href="buy.css">
+</head>
+<body>
+    <div class="header">
+        <h1 class="logo"><a href="HomePage.html">Jobra Movies</a></h1>
+        <nav>
+            <ul>
+                <li><a href="HomePage.html">HOME</a></li>
+                <li><a href="Showtimes.html">SHOWTIMES</a></li>
+                <li><a href="buy.html">Ticket Price</a></li>
+                <li><a href="CommingSoon.html">Coming Soon</a></li>
+                <li><a href="AboutUss.html">About Us</a></li>
+                <li><a href="Account.html">Account</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="form-container">
+        <form action="http://localhost:3000/add-ticket" method="POST">
+            <label>Username :</label>
+            <input type="text" name="username" placeholder="UserName" required>
+            
+            <label>Password :</label>
+            <input type="password" name="password" placeholder="Password" required>
+            
+            <label>Movie Name :</label>
+            <select name="movie_name">
+                <option>Vaikunthapurramuloo</option>
+                <option>Loki</option>
+                <option>Jailer</option>
+                <option>Good Newwz</option>
+                <option>Pushpa</option>
+                <option>Stree</option>
+            </select>
+            
+            <label>Showtime :</label>
+            <select name="showtime">
+                <option>10:50 AM</option>
+                <option>2:30 PM</option>
+                <option>6:15 PM</option>
+                <option>9:45 PM</option>
+            </select>
+            
+            <label>Day :</label>
+            <select name="day">
+                <option>Friday</option>
+                <option>Saturday</option>
+                <option>Sunday</option>
+                <option>Monday</option>
+            </select>
+            
+            <label>Total Tickets:</label>
+            <input type="number" name="total_tickets" required>
+
+            <label>Type :</label>
+            <select name="ticket_type">
+                <option>Regular - 300 TAKA</option>
+                <option>Premium - 500 TAKA</option>
+            </select>
+            
+            <label>Hall :</label>
+            <select name="hall">
+                <option>Omega</option>
+                <option>Sigma</option>
+                <option>Lamda</option>
+                <option>Alfa</option>
+            </select>
+
+            <label>Mobile :</label>
+            <input type="text" name="mobile" placeholder="Number" required>
+            
+            <label>Issue Date :</label>
+            <input type="date" name="issue_date" required>
+            
+            <label>Gender :</label>
+            <select name="gender">
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+            </select>
+
+            <!-- Submit button -->
+            <div class="form-group">
+                <button type="submit" class="submit-btn">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

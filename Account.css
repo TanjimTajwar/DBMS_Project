@@ -140,3 +140,7 @@ header h1 {
 .submit-btn:hover {
     background-color: #800000;
 }
+
+#SignUp{
+    color: #800000;
+}

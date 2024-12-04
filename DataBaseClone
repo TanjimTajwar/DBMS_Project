@@ -1,0 +1,317 @@
+CREATE DATABASE dbms_project;
+
+USE dbms_project;
+
+Creating table
+
+
+CREATE TABLE AccountUser (
+    userID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(15) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('Admin', 'User') NOT NULL
+);
+
+
+CREATE TABLE Hall (
+    HallID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100),
+    Location VARCHAR(100),
+    Capacity INT
+);
+
+
+CREATE TABLE Movie (
+    MovieID INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(100),
+    Genre VARCHAR(50),
+    Duration TIME,
+    ReleaseDate DATE,
+    Language VARCHAR(50)
+);
+
+CREATE TABLE Session (
+    SessionID INT AUTO_INCREMENT PRIMARY KEY,
+    HallID INT,
+    MovieID INT,
+    StartTime DATETIME,
+    EndTime DATETIME,
+    FOREIGN KEY (HallID) REFERENCES Hall(HallID),
+    FOREIGN KEY (MovieID) REFERENCES Movie(MovieID)
+);
+
+CREATE TABLE Ticket (
+    TicketID INT AUTO_INCREMENT PRIMARY KEY,
+    SessionID INT,
+    UserID INT,
+    SeatNumber VARCHAR(10),
+    Price DECIMAL(10, 2),
+    PurchaseDate DATETIME,
+    FOREIGN KEY (SessionID) REFERENCES Session(SessionID),
+    FOREIGN KEY (UserID) REFERENCES AccountUser(UserID)
+);
+drop table Ticket;
+
+CREATE TABLE Review (
+    ReviewID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT,
+    MovieID INT,
+    Rating INT CHECK (Rating BETWEEN 1 AND 5),
+    Comment TEXT,
+    ReviewDate DATETIME,
+    FOREIGN KEY (UserID) REFERENCES AccountUser(UserID),
+    FOREIGN KEY (MovieID) REFERENCES Movie(MovieID)
+);
+
+
+
+
+
+
+Inserting inside the table
+
+
+
+
+INSERT INTO Movie (Title, Genre, Duration, ReleaseDate, Language)
+VALUES 
+('Loki', 'Action, Adventure, Fantasy', '02:27:00', '2021-06-09', 'English');
+
+INSERT INTO Movie (Title, Genre, Duration, ReleaseDate, Language)
+VALUES 
+('Stree 2: Sarkate Ka Aatank', 'Horror, Comedy', '02:27:00', '2024-08-01', 'Hindi');
+
+INSERT INTO Movie (Title, Genre, Duration, ReleaseDate, Language)
+VALUES 
+('Pushpa: The Rise - Part 1', 'Action, Drama', '02:59:00', '2021-12-17', 'Telugu');
+
+INSERT INTO Movie (Title, Genre, Duration, ReleaseDate, Language)
+VALUES 
+('Jailer', 'Action, Thriller', '02:46:00', '2023-08-10', 'Hindi');
+
+INSERT INTO Movie (Title, Genre, Duration, ReleaseDate, Language)
+VALUES 
+('Ala Vaikunthapurramuloo', 'Action, Drama, Family', '02:45:00', '2020-01-12', 'Telugu');
+
+INSERT INTO Movie (Title, Genre, Duration, ReleaseDate, Language)
+VALUES 
+('Good Newwz', 'Comedy, Drama', '02:12:00', '2019-12-27', 'Hindi');
+
+INSERT INTO Movie (Title, Genre, Duration, ReleaseDate, Language)
+VALUES 
+('Bang Chor', 'Comedy, Thriller', '02:00:00', '2017-06-16', 'Hindi');
+
+INSERT INTO Movie (Title, Genre, Duration, ReleaseDate, Language)
+VALUES 
+('Din the Day', 'Action, Drama', '02:18:00', '2021-07-10', 'Bengali');
+
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO Hall (Name, Location, Capacity)
+VALUES 
+('Alfa', 'Ground Floor', 250);
+
+INSERT INTO Hall (Name, Location, Capacity)
+VALUES 
+('Omega', '1st Floor', 300);
+
+INSERT INTO Hall (Name, Location, Capacity)
+VALUES 
+('Lamda', '2nd Floor', 200);
+
+INSERT INTO Hall (Name, Location, Capacity)
+VALUES 
+('Sigma', '3rd Floor', 180);
+
+
+
+
+
+-- Sessions for Loki in Hall Alfa
+INSERT INTO Session (HallID, MovieID, StartTime, EndTime)
+VALUES 
+(1, 1, '2024-11-08 10:50:00', '2024-11-08 13:17:00'),
+(1, 1, '2024-11-08 14:30:00', '2024-11-08 16:57:00'),
+(1, 1, '2024-11-08 18:15:00', '2024-11-08 20:42:00');
+
+-- Sessions for Stree 2 in Hall Alfa
+INSERT INTO Session (HallID, MovieID, StartTime, EndTime)
+VALUES 
+(1, 2, '2024-11-08 09:00:00', '2024-11-08 11:27:00'),
+(1, 2, '2024-11-08 12:30:00', '2024-11-08 14:57:00'),
+(1, 2, '2024-11-08 16:00:00', '2024-11-08 18:27:00');
+
+-- Sessions for Pushpa in Hall Sigma
+INSERT INTO Session (HallID, MovieID, StartTime, EndTime)
+VALUES 
+(4, 3, '2024-11-08 09:30:00', '2024-11-08 12:29:00'),
+(4, 3, '2024-11-08 13:30:00', '2024-11-08 16:29:00'),
+(4, 3, '2024-11-08 17:30:00', '2024-11-08 20:29:00');
+
+-- Sessions for Jailer in Hall Omega
+INSERT INTO Session (HallID, MovieID, StartTime, EndTime)
+VALUES 
+(2, 4, '2024-11-08 12:30:00', '2024-11-08 15:16:00'),
+(2, 4, '2024-11-08 16:00:00', '2024-11-08 18:46:00'),
+(2, 4, '2024-11-08 19:45:00', '2024-11-08 22:31:00');
+
+-- Sessions for Ala Vaikunthapurramuloo in Hall Lamda
+INSERT INTO Session (HallID, MovieID, StartTime, EndTime)
+VALUES 
+(3, 5, '2024-11-08 10:00:00', '2024-11-08 12:45:00'),
+(3, 5, '2024-11-08 13:30:00', '2024-11-08 16:15:00'),
+(3, 5, '2024-11-08 17:00:00', '2024-11-08 19:45:00');
+
+-- Sessions for Good Newwz in Hall Lamda
+INSERT INTO Session (HallID, MovieID, StartTime, EndTime)
+VALUES 
+(3, 6, '2024-11-08 11:00:00', '2024-11-08 13:12:00'),
+(3, 6, '2024-11-08 15:00:00', '2024-11-08 17:12:00'),
+(3, 6, '2024-11-08 20:00:00', '2024-11-08 22:12:00');
+
+-- Sessions for Bang Chor in Hall Sigma
+INSERT INTO Session (HallID, MovieID, StartTime, EndTime)
+VALUES 
+(4, 7, '2024-11-08 10:00:00', '2024-11-08 12:00:00'),
+(4, 7, '2024-11-08 13:00:00', '2024-11-08 15:00:00'),
+(4, 7, '2024-11-08 16:00:00', '2024-11-08 18:00:00');
+
+-- Sessions for Din the Day in Hall Omega
+INSERT INTO Session (HallID, MovieID, StartTime, EndTime)
+VALUES 
+(2, 8, '2024-11-08 11:00:00', '2024-11-08 13:18:00'),
+(2, 8, '2024-11-08 14:30:00', '2024-11-08 16:48:00'),
+(2, 8, '2024-11-08 17:45:00', '2024-11-08 20:03:00');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Here are the SQL queries based on your requirements:
+
+### Queries for Users (`role = 'User'`)
+
+1. **Show the user information based on their email:**
+   ```sql
+   SELECT * 
+   FROM AccountUser 
+   WHERE email = 'user_email@example.com' AND role = 'User';
+   ```
+
+2. **Show the total tickets booked by a user, including showtime, movie name, and hall name, based on their email:**
+   ```sql
+   SELECT 
+       AccountUser.Name AS UserName,
+       Ticket.SeatNumber,
+       Ticket.Price,
+       Ticket.PurchaseDate,
+       Session.StartTime AS ShowTime,
+       Movie.Title AS MovieName,
+       Hall.Name AS HallName
+   FROM Ticket
+   JOIN AccountUser ON Ticket.UserID = AccountUser.UserID
+   JOIN Session ON Ticket.SessionID = Session.SessionID
+   JOIN Movie ON Session.MovieID = Movie.MovieID
+   JOIN Hall ON Session.HallID = Hall.HallID
+   WHERE AccountUser.email = 'user_email@example.com' AND AccountUser.role = 'User';
+   ```
+
+3. **Show the reviews given by a user for movies, displaying their name, the movie title, and the review:**
+   ```sql
+   SELECT 
+       AccountUser.Name AS UserName,
+       Movie.Title AS MovieTitle,
+       Review.Rating,
+       Review.Comment,
+       Review.ReviewDate
+   FROM Review
+   JOIN AccountUser ON Review.UserID = AccountUser.UserID
+   JOIN Movie ON Review.MovieID = Movie.MovieID
+   WHERE AccountUser.email = 'user_email@example.com' AND AccountUser.role = 'User';
+   ```
+
+---
+
+### Queries for Admins (`role = 'Admin'`)
+
+4. **Show all user information:**
+   ```sql
+   SELECT * 
+   FROM AccountUser
+   WHERE role = 'User';
+   ```
+
+5. **Show all movie details (list, time, and date):**
+   ```sql
+   SELECT 
+       Movie.Title,
+       Movie.Genre,
+       Movie.Duration,
+       Movie.ReleaseDate,
+       Movie.Language,
+       Session.StartTime AS SessionStartTime,
+       Session.EndTime AS SessionEndTime,
+       Hall.Name AS HallName
+   FROM Movie
+   JOIN Session ON Movie.MovieID = Session.MovieID
+   JOIN Hall ON Session.HallID = Hall.HallID;
+   ```
+
+6. **Show all reviews given by users:**
+   ```sql
+   SELECT 
+       AccountUser.Name AS UserName,
+       Movie.Title AS MovieTitle,
+       Review.Rating,
+       Review.Comment,
+       Review.ReviewDate
+   FROM Review
+   JOIN AccountUser ON Review.UserID = AccountUser.UserID
+   JOIN Movie ON Review.MovieID = Movie.MovieID;
+   ```
+
+7. **Show all tickets booked by users:**
+   ```sql
+   SELECT 
+       Ticket.TicketID,
+       AccountUser.Name AS UserName,
+       Movie.Title AS MovieTitle,
+       Hall.Name AS HallName,
+       Ticket.SeatNumber,
+       Ticket.Price,
+       Ticket.PurchaseDate,
+       Session.StartTime AS ShowTime
+   FROM Ticket
+   JOIN AccountUser ON Ticket.UserID = AccountUser.UserID
+   JOIN Session ON Ticket.SessionID = Session.SessionID
+   JOIN Movie ON Session.MovieID = Movie.MovieID
+   JOIN Hall ON Session.HallID = Hall.HallID;
+   ```
+
+Replace `'user_email@example.com'` with the desired email address when executing the queries.

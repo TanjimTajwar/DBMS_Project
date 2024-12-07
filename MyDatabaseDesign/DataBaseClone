@@ -1,0 +1,235 @@
+select * from AccountUser;
+select * from Movie;
+select * from MovieSession;
+select * from Review;
+select * from moviebooked;
+
+
+
+
+
+CREATE DATABASE dbms;
+
+
+
+USE dbms;
+
+DESCRIBE AccountUser;
+
+-- Create AccountUser table
+CREATE TABLE AccountUser (
+    username VARCHAR(255) PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    name VARCHAR(255) NOT NULL,
+    phone VARCHAR(15) NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+
+
+-- Create Movie table
+CREATE TABLE Movie (
+    title VARCHAR(100) PRIMARY KEY,
+    genre VARCHAR(50),
+    duration TIME,
+    release_date DATE,
+    language VARCHAR(50)
+);
+
+-- Create MovieSession table
+CREATE TABLE MovieSession (
+    session_id INT AUTO_INCREMENT PRIMARY KEY,
+    movie_title VARCHAR(100),
+    session_time Varchar(100),
+    FOREIGN KEY (movie_title) REFERENCES Movie(title) ON DELETE CASCADE
+);
+
+-- Create Review table
+CREATE TABLE Review (
+    review_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255),
+    movie_title VARCHAR(100),
+    rating INT CHECK (rating BETWEEN 1 AND 10),
+    comment TEXT,
+    review_date DATETIME,
+    FOREIGN KEY (username) REFERENCES AccountUser(username) ON DELETE CASCADE,
+    FOREIGN KEY (movie_title) REFERENCES Movie(title) ON DELETE CASCADE
+);
+
+
+-- Create moviebooked table
+CREATE TABLE moviebooked (
+    username VARCHAR(255),
+    movie_title VARCHAR(100),
+    show_time VARCHAR(50),  -- Day, Afternoon, Evening, Night
+    number_of_tickets int,
+    price VARCHAR(50),  -- Luxary, Premium, Regular
+    seat_number INT AUTO_INCREMENT,
+    purchase_date DATE,
+    Payment_ID varchar(50),
+    PRIMARY KEY (seat_number),
+    FOREIGN KEY (username) REFERENCES AccountUser(username) ON DELETE CASCADE,
+    FOREIGN KEY (movie_title) REFERENCES Movie(title) ON DELETE CASCADE
+);
+
+-- Set auto increment behavior for seat_number based on price
+DELIMITER //
+CREATE TRIGGER set_seat_number BEFORE INSERT ON moviebooked
+FOR EACH ROW
+BEGIN
+    IF NEW.price = 'Regular' THEN
+        SET NEW.seat_number = (SELECT IFNULL(MAX(seat_number), 999) + 1 FROM moviebooked WHERE price = 'Regular');
+    ELSEIF NEW.price = 'Premium' THEN
+        SET NEW.seat_number = (SELECT IFNULL(MAX(seat_number), 1999) + 1 FROM moviebooked WHERE price = 'Premium');
+    ELSEIF NEW.price = 'Luxary' THEN
+        SET NEW.seat_number = (SELECT IFNULL(MAX(seat_number), 2999) + 1 FROM moviebooked WHERE price = 'Luxary');
+    END IF;
+END; //
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+
+-- Insert Movies
+INSERT INTO Movie (title, genre, duration, release_date, language)
+VALUES 
+('Loki', 'Action, Adventure, Fantasy', '02:27:00', '2021-06-09', 'English'),
+('Stree 2: Sarkate Ka Aatank', 'Horror, Comedy', '02:27:00', '2024-08-01', 'Hindi'),
+('Pushpa: The Rise - Part 1', 'Action, Drama', '02:59:00', '2021-12-17', 'Telugu'),
+('Jailer', 'Action, Thriller', '02:46:00', '2023-08-10', 'Hindi'),
+('Ala Vaikunthapurramuloo', 'Action, Drama, Family', '02:45:00', '2020-01-12', 'Telugu'),
+('Good Newwz', 'Comedy, Drama', '02:12:00', '2019-12-27', 'Hindi'),
+('Bang Chor', 'Comedy, Thriller', '02:00:00', '2017-06-16', 'Hindi'),
+('Din the Day', 'Action, Drama', '02:18:00', '2021-07-10', 'Bengali');
+
+-- Insert Movie Sessions for all movies
+INSERT INTO MovieSession (movie_title, session_time)
+VALUES 
+-- Loki Sessions
+('Loki', 'Day(12.00)'),
+('Loki', 'After-Noon(3.00)'),
+('Loki', 'Evening(6.00)'),
+('Loki', 'Night(9.00)'),
+
+-- Stree 2 Sessions
+('Stree 2: Sarkate Ka Aatank', 'Day(12.00)'),
+('Stree 2: Sarkate Ka Aatank', 'After-Noon(3.00)'),
+('Stree 2: Sarkate Ka Aatank', 'Evening(6.00)'),
+('Stree 2: Sarkate Ka Aatank', 'Night(9.00)'),
+
+-- Pushpa Sessions
+('Pushpa: The Rise - Part 1', 'Day(12.00)'),
+('Pushpa: The Rise - Part 1', 'After-Noon(3.00)'),
+('Pushpa: The Rise - Part 1', 'Evening(6.00)'),
+('Pushpa: The Rise - Part 1', 'Night(9.00)'),
+
+-- Jailer Sessions
+('Jailer', 'Day(12.00)'),
+('Jailer', 'After-Noon(3.00)'),
+('Jailer', 'Evening(6.00)'),
+('Jailer', 'Night(9.00)'),
+
+-- Ala Vaikunthapurramuloo Sessions
+('Ala Vaikunthapurramuloo', 'Day(12.00)'),
+('Ala Vaikunthapurramuloo', 'After-Noon(3.00)'),
+('Ala Vaikunthapurramuloo', 'Evening(6.00)'),
+('Ala Vaikunthapurramuloo', 'Night(9.00)'),
+
+-- Good Newwz Sessions
+('Good Newwz', 'Day(12.00)'),
+('Good Newwz', 'After-Noon(3.00)'),
+('Good Newwz', 'Evening(6.00)'),
+('Good Newwz', 'Night(9.00)'),
+
+-- Bang Chor Sessions
+('Bang Chor', 'Day(12.00)'),
+('Bang Chor', 'After-Noon(3.00)'),
+('Bang Chor', 'Evening(6.00)'),
+('Bang Chor', 'Night(9.00)'),
+
+-- Din the Day Sessions
+('Din the Day', 'Day(12.00)'),
+('Din the Day', 'After-Noon(3.00)'),
+('Din the Day', 'Evening(6.00)'),
+('Din the Day', 'Night(9.00)');
+
+
+-- Other movie session data would follow a similar pattern.
+
+-- Query to get account information
+SELECT * 
+FROM AccountUser 
+WHERE username = 'username';
+
+-- Query to get ticket information
+SELECT 
+    AccountUser.name AS UserName,
+    Ticket.seat_number AS SeatNumber,
+    Ticket.price AS Price,
+    Ticket.purchase_date AS PurchaseDate,
+    MovieSession.session_time AS ShowTime,
+    Movie.title AS MovieName
+FROM Ticket
+JOIN AccountUser ON Ticket.username = AccountUser.username
+JOIN MovieSession ON Ticket.session_id = MovieSession.session_id
+JOIN Movie ON MovieSession.movie_title = Movie.title
+WHERE AccountUser.username = 'username';
+
+-- Query to get review information
+SELECT 
+    AccountUser.name AS UserName,
+    Movie.title AS MovieTitle,
+    Review.rating AS Rating,
+    Review.comment AS Comment,
+    Review.review_date AS ReviewDate
+FROM Review
+JOIN AccountUser ON Review.username = AccountUser.username
+JOIN Movie ON Review.movie_title = Movie.title
+WHERE AccountUser.username = 'username';
+
+-- Query to get all users
+SELECT * 
+FROM AccountUser;
+
+-- Query to get movie sessions
+SELECT 
+    Movie.title AS MovieTitle,
+    Movie.genre AS Genre,
+    Movie.duration AS Duration,
+    Movie.release_date AS ReleaseDate,
+    Movie.language AS Language,
+    MovieSession.session_time AS SessionTime
+FROM Movie
+JOIN MovieSession ON Movie.title = MovieSession.movie_title;
+
+-- Query to get all reviews
+SELECT 
+    AccountUser.name AS UserName,
+    Movie.title AS MovieTitle,
+    Review.rating AS Rating,
+    Review.comment AS Comment,
+    Review.review_date AS ReviewDate
+FROM Review
+JOIN AccountUser ON Review.username = AccountUser.username
+JOIN Movie ON Review.movie_title = Movie.title;
+
+-- Query to get detailed ticket information
+SELECT 
+    Ticket.ticket_id AS TicketID,
+    AccountUser.name AS UserName,
+    Movie.title AS MovieTitle,
+    Ticket.seat_number AS SeatNumber,
+    Ticket.price AS Price,
+    Ticket.purchase_date AS PurchaseDate,
+    MovieSession.session_time AS ShowTime
+FROM Ticket
+JOIN AccountUser ON Ticket.username = AccountUser.username
+JOIN MovieSession ON Ticket.session_id = MovieSession.session_id
+JOIN Movie ON MovieSession.movie_title = Movie.title;

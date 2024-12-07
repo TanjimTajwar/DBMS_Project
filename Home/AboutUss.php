@@ -4,18 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Jobra Movies</title>
-    <link rel="stylesheet" href="AboutUss.css">
+    <link rel="stylesheet" href="../CSS/AboutUss.css">
 </head>
 <body>
     <div class="header">
-        <h1 class="logo"><a href="HomePage.php">Jobra Movies</a></h1>
+        <h1 class="logo"><a href="../Html/HomePage.php">Jobra Movies</a></h1>
         <nav>
             <ul>
-                <li><a href="HomePage.php">HOME</a></li>
-                <li><a href="Showtimes.html">SHOWTIMES</a></li>
-                <li><a href="buy.html">Ticket Price</a></li>
-                <li><a href="Account.html">Account</a></li>
-            </ul>
+                <li><a href="../Home/HomePage.php">HOME</a></li>
+                <li><a href="../Home/Showtimes.php">SHOWTIMES</a></li>
+                <li><a href="../Home/buy.php">Ticket Price</a></li>
+                <li><a href="../Home/Review.php">Review</a></li>
+                <li><a href="../Home/CommingSoon.php">Coming Soon</a></li>
+                <li><a href="../Home/AboutUss.php">About Us</a></li>
+                <li>
+                    <a href="../user_dashboard/user_dashboard.php">
+                        <?php 
+                            if (isset($_SESSION['username'])) {
+                                echo htmlspecialchars($_SESSION['username']); 
+                            } else {
+                                echo "User";
+                            }
+                        ?>
+                    </a>
+                </li>
+        </ul>
         </nav>
     </div>
 

@@ -4,27 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jobra Movies - Coming Soon</title>
-    <link rel="stylesheet" href="CommingSoon.css">
+    <link rel="stylesheet" href="../CSS/CommingSoon.css">
 </head>
 <body>
     <header class="navbar">
-        <div class="logo"><a href="HomePage.html">Jobra Movies</a></div>
+        <div class="logo"><a href="../home/HomePage.php">Jobra Movies</a></div>
         <nav>
-            <ul>
-                <li><a href="HomePage.html">HOME</a></li>
-                <li><a href="Showtimes.html">SHOWTIMES</a></li>
-                <li><a href="buy.html">Ticket Price</a></li>
-                <li><a href="CommingSoon.html">Coming Soon</a></li>
-                <li><a href="AboutUss.html">About Us</a></li>
-                <li><a href="Account.html">Account</a></li>
-            </ul>
+           <ul>
+                <li><a href="../Home/HomePage.php">HOME</a></li>
+                <li><a href="../Home/Showtimes.php">SHOWTIMES</a></li>
+                <li><a href="../Home/buy.php">Ticket Price</a></li>
+                <li><a href="../Home/Review.php">Review</a></li>
+                <li><a href="../Home/CommingSoon.php">Coming Soon</a></li>
+                <li><a href="../Home/AboutUss.php">About Us</a></li>
+                <li>
+                    <a href="../user_dashboard/user_dashboard.php">
+                        <?php 
+                            if (isset($_SESSION['username'])) {
+                                echo htmlspecialchars($_SESSION['username']); 
+                            } else {
+                                echo "User";
+                            }
+                        ?>
+                    </a>
+                </li>
+        </ul>
         </nav>
     </header>
 
     <section class="movie-list">
         <!-- Movie 1 -->
         <div class="movie-card">
-            <img src="Avatar3.png" alt="Avatar 3">
+            <img src="../Images/Avatar3.png" alt="Avatar 3">
             <div class="movie-info">
                 <h2>Avatar 3</h2>
                 <p><strong>Rating:</strong> Not Yet Rated</p>
@@ -43,7 +54,7 @@
 
         <!-- Movie 2 -->
         <div class="movie-card">
-            <img src="Dune Part 2.png" alt="Dune Part 2">
+            <img src="../Images/Dune Part 2.png" alt="Dune Part 2">
             <div class="movie-info">
                 <h2>Dune: Part 2</h2>
                 <p><strong>Rating:</strong> Not Yet Rated</p>
@@ -62,7 +73,7 @@
 
         <!-- Movie 3 -->
         <div class="movie-card">
-            <img src="Jawan 2.png" alt="Jawan">
+            <img src="../Images/Jawan 2.png" alt="Jawan">
             <div class="movie-info">
                 <h2>Jawan 2</h2>
                 <p><strong>Rating:</strong> Not Yet Rated</p>
@@ -81,7 +92,7 @@
 
         <!-- Movie 4 -->
         <div class="movie-card">
-            <img src="Deadpool.png" alt="Deadpool 3">
+            <img src="../Images/Deadpool.png" alt="Deadpool 3">
             <div class="movie-info">
                 <h2>Deadpool 3</h2>
                 <p><strong>Rating:</strong> Not Yet Rated</p>
@@ -100,7 +111,7 @@
 
         <!-- Movie 5 -->
         <div class="movie-card">
-            <img src="KGF3.png" alt="KGF Chapter 3">
+            <img src="../Images/KGF3.png" alt="KGF Chapter 3">
             <div class="movie-info">
                 <h2>KGF Chapter 3</h2>
                 <p><strong>Rating:</strong> Not Yet Rated</p>
